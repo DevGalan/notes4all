@@ -22,10 +22,16 @@ class NotesController extends Controller
 
     public function new() {
         $note = new Note;
+        $method = 'POST';
         return view('note-form');
     }
 
     public function create(Request $request) {
+        if ($this->isNameAndAuthorRepeated(
+                $request->input('title'),
+                Auth::user()->name)) {
+                    return redirect('/notes')->with('error', 'Name and Author must be unique');
+                }
         $this->addCategoryIfNotExists($request->input('category_name'));
         $note = new Note;
         $note->author = Auth::user()->name;
@@ -38,10 +44,16 @@ class NotesController extends Controller
 
     public function edit($id) {
         $note = Note::find($id);
+        $method = 'PUT';
         return view('note-form', $note);
     }
 
     public function update(Request $request, $id) {
+        if ($this->isNameAndAuthorRepeated(
+                $request->input('title'),
+                Auth::user()->name)) {
+                    return redirect('/notes')->with('error', 'Name and Author must be unique');
+                }
         $this->addCategoryIfNotExists($request->input('category_name'));
         $note = Note::find($id);
         $note->title = $request->input('title');
@@ -49,6 +61,11 @@ class NotesController extends Controller
         $note->category_name = $request->input('category_name');
         $message = $note->save() ? 'success' : 'error';
         return redirect('/notes')->with($message);
+    }
+
+    private function isNameAndAuthorRepeated($title, $author) {
+        $note = Note::where('title', '=', $title)->where('author', '=', $author);
+        return $note->exists();
     }
 
     private function addCategoryIfNotExists($category_name) {

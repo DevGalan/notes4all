@@ -7,7 +7,7 @@
 <div class="container my-3">
     <div class="row">
         <div class="col-md-10">
-            <form method="POST" action="/items/{{ $note->id }}">
+            <form method={{ $method }} action="/notes/{{ $note->id }}">
                 @csrf
                 @method('PUT')
                 <input type="hidden" value="{{ $note->id }}">

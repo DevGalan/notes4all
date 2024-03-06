@@ -32,19 +32,6 @@ Route::put('/notes', [NotesController::class, 'update']);
 
 Route::delete('/notes/{id}/delete', [NotesController::class, 'delete']);
 
-// Route::post('/notes', function () { TODO
-    // $note = new \App\Models\Note();
-    // $note->title = request('title');
-    // $note->description = request('description');
-    // $note->save();
-//     return ;
-// })
-
-// Route::get('/notes/delete/{id}', function ($id) {
-    // return view('note-delete') . ' ' . $id;
-// })
-
-
 
 Route::get('/welcome', function () {
     return view('welcome');
