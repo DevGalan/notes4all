@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Note;
 use Illuminate\Http\Request;
 
 class NotesController extends Controller
@@ -20,8 +21,13 @@ class NotesController extends Controller
         return view('note-form');
     }
 
-    public function create() {
-        $note =
+    public function create(Request $request) {
+        $note = new Note;
+        $note->title = $request->input('title');
+        $note->text = $request->input('text');
+        $note->category_id = $request->input('category_id');
+        $note->save();
+        // Check si la categoria existe y si no crearla
         return view('note-list');
     }
 
