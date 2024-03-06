@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string("title");
             $table->unique(["author", "title"]);
             $table->text("text");
-            $table->foreign("category_id")
-                    ->references("id")
+            $table->foreign("category_name")
+                    ->references("name")
                     ->on("categories");
             $table->timestamps();
         });

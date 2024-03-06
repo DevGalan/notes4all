@@ -5,58 +5,63 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Note;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class NotesController extends Controller
 {
     public function index() {
-        $notes = Note::findByAuthor(Auth::user()->name);
+        $notes = Note::where('author', '=',(Auth::user()->name))->get();
         return view('note-list');
     }
 
     public function show($id) {
-        $note = Note::findById($id);
+        $note = Note::find($id);
         return view('note-view', $note);
     }
 
     public function new() {
+        $note = new Note;
         return view('note-form');
     }
 
     public function create(Request $request) {
+        $this->addCategoryIfNotExists($request->input('category_name'));
         $note = new Note;
         $note->author = Auth::user()->name;
         $note->title = $request->input('title');
         $note->text = $request->input('text');
-        $note->category_id = $request->input('category_id');
+        $note->category_name = $request->input('category_name');
         $note->save();
-        // Check si la categoria existe y si no crearla
         return view('note-list');
     }
 
     public function edit($id) {
-        $note = Note::findById($id);
-        // <form method="POST" action="/items/{{ $item->id }}">
-//     @csrf
-//     @method('PUT')
-//     <input type="text" name="name" value="{{ $item->name }}">
-//     <input type="text" name="description" value="{{ $item->description }}">
-//     <button type="submit">Update</button>
-// </form>
+        $note = Note::find($id);
         return view('note-form', $note);
     }
 
     public function update(Request $request, $id) {
-        $note = Note::findById($id);
+        $this->addCategoryIfNotExists($request->input('category_name'));
+        $note = Note::find($id);
         $note->title = $request->input('title');
         $note->text = $request->input('text');
+        $note->category_name = $request->input('category_name');
+        $message = $note->save() ? 'success' : 'error';
+        return redirect('/notes')->with($message);
+    }
 
-        $note->save();
-        return redirect('/notes')->with('success', 'Item updated successfully');
+    private function addCategoryIfNotExists($category_name) {
+        $category = Category::where('name', '=', $category_name);
+        if (!$category->exists()) {
+            $category = new Category;
+            $category->name = $category_name;
+            $category->save();
+        }
     }
 
     public function delete($id) {
-        $note = Note::removeById($id);
-        return view('note-list');
+        $message = Note::find($id)->delete() ? 'success' : 'error';
+        return redirect('/notes')->with($message);
     }
 }

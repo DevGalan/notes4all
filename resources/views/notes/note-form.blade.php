@@ -7,10 +7,17 @@
 <div class="container my-3">
     <div class="row">
         <div class="col-md-10">
+            <form method="POST" action="/items/{{ $note->id }}">
+                @csrf
+                @method('PUT')
+                <input type="hidden" value="{{ $note->id }}">
+                <input type="text" name="name" value="{{ $note->name }}">
+                <input type="text" name="text" value="{{ $note->text }}">
+                <input type="text" name="category" value="{{ $note->category }}">
+                <button type="submit">Subir</button>
+            </form>
+
             <form th:action="@{/notes}" method="post" th:object="${note}">
-
-                <input type="hidden" th:field="*{id}">
-
                 <div class="mb-3">
                     <label for="title" class="form-label">Título</label>
                     <input type="text" class="form-control" id="title" th:field="*{title}" required>
