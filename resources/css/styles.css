@@ -1,0 +1,59 @@
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+
+.bnt-bottom-right {
+    position: fixed;
+    bottom: 6vh;
+    right: 20vw;
+}
+.bnt-bottom-left {
+    position: fixed;
+    bottom: 6vh;
+    left: 20vw;
+}
+.bnt-bottom-center {
+    position: fixed;
+    bottom: 6vh;
+    left: 49vw;
+}
+.btn-top-left {
+    position: fixed;
+    top: 6vh;
+    left: 20vw;
+}
+.btn-top-right {
+    position: fixed;
+    top: 6vh;
+    right: 20vw;
+}
+
+.div-bottom-center {
+    position: fixed;
+    height: 70px;
+    bottom: 6vh;
+
+    & > div {
+        padding: 0 16px;
+        max-width: 50%;
+
+        & > p {
+            margin: 0;
+        }
+    }
+}

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Note;
 use Illuminate\Http\Request;
 
 class NotesController extends Controller
 {
     public function index() {
+        $notes = Note::findByAuthor(Auth::user()->name);
         return view('note-list');
     }
 
@@ -23,6 +25,7 @@ class NotesController extends Controller
 
     public function create(Request $request) {
         $note = new Note;
+        $note->author = Auth::user()->name;
         $note->title = $request->input('title');
         $note->text = $request->input('text');
         $note->category_id = $request->input('category_id');
