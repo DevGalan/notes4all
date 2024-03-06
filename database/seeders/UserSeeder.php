@@ -15,14 +15,17 @@ class UserSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'Galan',
+            'password' => 'galan',
             'email' => 'galan@gmail.com',
         ]);
         User::factory()->create([
             'name' => 'Pepe',
+            'password' => 'pepe',
             'email' => 'pepe@gmail.com',
         ]);
         User::factory()->create([
             'name' => 'Admin',
+            'password' => 'admin',
             'email' => 'admin@gmail.com',
         ]);
     }
