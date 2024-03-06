@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\NotesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::redirect('/', '/notes');
+Route::redirect('/index', '/notes');
+
+Route::get('/notes', [NotesController::class, 'index']);
+
+Route::get('/notes/{id}/show', [NotesController::class, 'show']);
+
+Route::get('/notes/new', [NotesController::class, 'new']);
+
+Route::post('/notes', [NotesController::class, 'create']);
+
+Route::get('/notes/{id}/edit', [NotesController::class, 'edit']);
+
+Route::put('/notes', [NotesController::class, 'update']);
+
+Route::delete('/notes/{id}/delete', [NotesController::class, 'delete']);
+
+// Route::post('/notes', function () { TODO
+    // $note = new \App\Models\Note();
+    // $note->title = request('title');
+    // $note->description = request('description');
+    // $note->save();
+//     return ;
+// })
+
+// Route::get('/notes/delete/{id}', function ($id) {
+    // return view('note-delete') . ' ' . $id;
+// })
+
+
+
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
