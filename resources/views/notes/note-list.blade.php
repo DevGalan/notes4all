@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="container my-5">
+<div class="container mb-5">
     <h1 class="display-1 text-center my-3">Notas de {{$user}}</h1>
     <div class="row g-3 justify-content-md-center align-items-center align-items-stretch">
         @foreach ($notes as $note)
