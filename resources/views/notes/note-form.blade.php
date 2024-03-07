@@ -15,9 +15,18 @@
                 <form method="post" action="/notes/create">
             @endif
                 @csrf
-                <input type="text" name="title" value="{{ $note->title }}">
-                <input type="text" name="text" value="{{ $note->text }}">
-                <input type="text" name="category_name" value="{{ $note->category_name }}">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Título</label>
+                    <input type="text" class="form-control" name="title" value="{{ $note->title }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category_name" class="form-label">Categoría</label>
+                    <input type="text" class="form-control" name="category_name" value="{{ $note->category_name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="text" class="form-label">Contenido</label>
+                    <textarea type="text" class="form-control" name="text" required>{{ $note->text }}</textarea>
+                </div>
                 <button type="submit" class="btn btn-success btn-circle btn-xl bnt-bottom-right d-flex flex-column justify-content-center align-items-center"><i class="bi-check2 text-white fs-2"></i></button>
             </form>
         </div>

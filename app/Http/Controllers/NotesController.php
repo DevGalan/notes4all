@@ -49,13 +49,16 @@ class NotesController extends Controller
     }
 
     public function update(Request $request, $id) {
-        if ($this->isNameAndAuthorRepeated(
+        $note = Note::find($id);
+        if ($note->title != $request->input('title'))
+        {
+            if ($this->isNameAndAuthorRepeated(
                 $request->input('title'),
                 Auth::user()->name)) {
                     return redirect('/notes')->with('error', 'Name and Author must be unique');
                 }
+        }
         $this->addCategoryIfNotExists($request->input('category_name'));
-        $note = Note::find($id);
         $note->title = $request->input('title');
         $note->text = $request->input('text');
         $note->category_name = $request->input('category_name');
