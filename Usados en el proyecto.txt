@@ -1,0 +1,17 @@
+Modelos con eloquent.
+Migraciones.
+Seeders.
+Factories.
+Vistas con Blade, template y vistas, usando sus métodos.
+Seguridad con Breeze.
+Middlewares para las rutas.
+Rutas.
+Bootstrap.
+
+
+
+composer install
+php artisan serve
+php artisan migrate:fresh --seed
+npm run dev
+php artisan route:list
