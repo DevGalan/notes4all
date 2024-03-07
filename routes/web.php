@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,26 +16,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/notes');
-Route::redirect('/index', '/notes');
+Route::middleware(['auth'])->group(function () {
+    Route::redirect('/', '/notes');
+    Route::redirect('/index', '/notes');
 
-Route::get('/notes', [NotesController::class, 'index']);
+    Route::get('/notes', [NotesController::class, 'index']);
 
-Route::get('/notes/{id}/show', [NotesController::class, 'show']);
+    Route::get('/notes/{id}/show', [NotesController::class, 'show']);
 
-Route::get('/notes/new', [NotesController::class, 'new']);
+    Route::get('/notes/new', [NotesController::class, 'new']);
 
-Route::post('/notes', [NotesController::class, 'create']);
+    Route::post('/notes/create', [NotesController::class, 'create']);
 
-Route::get('/notes/{id}/edit', [NotesController::class, 'edit']);
+    Route::get('/notes/{id}/edit', [NotesController::class, 'edit']);
 
-Route::put('/notes', [NotesController::class, 'update']);
+    Route::put('/notes/{id}/update', [NotesController::class, 'update']);
 
-Route::delete('/notes/{id}/delete', [NotesController::class, 'delete']);
+    Route::get('/notes/{id}/delete', [NotesController::class, 'delete']);
+});
 
-
-Route::get('/welcome', function () {
-    return view('welcome');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::get('/register', [AuthenticatedSessionController::class, 'create'])->name('register');
 });
 
 Route::get('/dashboard', function () {

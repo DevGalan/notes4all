@@ -11,19 +11,19 @@ use Illuminate\Http\Request;
 class NotesController extends Controller
 {
     public function index() {
-        $notes = Note::where('author', '=',(Auth::user()->name))->get();
-        return view('note-list');
+        $user = Auth::user()->name;
+        $notes = Note::where('author', '=',($user))->orderBy('updated_at', 'desc')->get();
+        return view('notes.note-list', compact('notes', 'user'));
     }
 
     public function show($id) {
         $note = Note::find($id);
-        return view('note-view', $note);
+        return view('notes.note-view', compact('note'));
     }
 
     public function new() {
         $note = new Note;
-        $method = 'POST';
-        return view('note-form');
+        return view('notes.note-form', compact('note'));
     }
 
     public function create(Request $request) {
@@ -38,14 +38,14 @@ class NotesController extends Controller
         $note->title = $request->input('title');
         $note->text = $request->input('text');
         $note->category_name = $request->input('category_name');
-        $note->save();
-        return view('note-list');
+        $message = $note->save() ? 'created' : 'error';
+        return redirect('/notes')->with($message);
     }
 
     public function edit($id) {
         $note = Note::find($id);
-        $method = 'PUT';
-        return view('note-form', $note);
+        $put = '';
+        return view('notes.note-form', compact('note', 'put'));
     }
 
     public function update(Request $request, $id) {
@@ -64,8 +64,7 @@ class NotesController extends Controller
     }
 
     private function isNameAndAuthorRepeated($title, $author) {
-        $note = Note::where('title', '=', $title)->where('author', '=', $author);
-        return $note->exists();
+        return Note::where('title', $title)->where('author', $author)->exists();
     }
 
     private function addCategoryIfNotExists($category_name) {
